@@ -13,4 +13,4 @@ awslocal sqs create-queue \
     --queue-name image-processing-queue-local \
     --attributes '{"RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:image-processing-dlq-local\",\"maxReceiveCount\":\"3\"}"}'
 
-echo "✅ Local AWS infrastructure setup complete!"
+echo "✅ Local AWS infrastructure setup complete.
