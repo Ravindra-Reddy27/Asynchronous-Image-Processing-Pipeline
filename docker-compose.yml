@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:3.8.0
+    ports:
+      - "4566:4566"            # Expose LocalStack to your machine
+    environment:
+      - SERVICES=s3,sqs        # We only need S3 and SQS for this project
+      - DEFAULT_REGION=us-east-1
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      # This line automatically runs our setup script when LocalStack is ready!
+      - ./localstack-setup.sh:/etc/localstack/init/ready.d/setup.sh
+    healthcheck:
+      test: ["CMD", "curl", "-s", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-service:
+    build: ./api-service
+    ports:
+      - "8000:8000"            # FastAPI default port
+    env_file:
+      - .env
+    volumes:
+      - ./api-service/src:/app/src  # Live-reload code changes
+      - ./api-service/tests:/app/tests
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  worker-service:
+    build: ./worker-service
+    env_file:
+      - .env
+    volumes:
+      - ./worker-service/src:/app/src # Live-reload code changes
+      - ./worker-service/tests:/app/tests
+    depends_on:
+      localstack:
+        condition: service_healthy
