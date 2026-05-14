@@ -133,7 +133,7 @@ This system utilizes a decoupled, asynchronous architecture to ensure the main A
 * **Consumer (Worker Service):** A continuously running Python process that utilizes long-polling to fetch tasks from SQS. It downloads the raw image, resizes it to a maximum of 150x150 pixels (preserving aspect ratio), applies a custom watermark, and uploads the thumbnail to a separate S3 bucket.
 
 ### System Diagram
-![Architecture Diagram](images/block-diagram.png) 
+![Architecture Diagram](./images/block-diagram.png) 
 
 ---
 ##  Demonstration
