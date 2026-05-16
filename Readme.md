@@ -114,14 +114,21 @@ Keep your containers running, open a new terminal, and execute:
 docker-compose exec api-service python -m pytest tests/
 ```
  
----
  
 ### 2. Run Worker Tests (Mocked S3/SQS and Image Processing)
  
 ```bash
 docker-compose exec worker-service python -m pytest tests/
 ```
- 
+---
+
+## Terminate
+
+Stop and Remove Docker Compose Setup
+
+```bash
+docker compose down -v
+```
 ---
 
 ## 🏗️ Architecture Overview
